@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap>
+	<typeAlias alias="customer" type="kr.co.jhta.vo.Customer"/>
+	
+	<select id="getAllCustomers" resultClass="customer">
+		select
+			customer_no				no,
+			customer_name			name,
+			customer_nickname		nickName,
+			customer_phone			phone,
+			customer_email			email,
+			customer_city			city,
+			customer_point			point,
+			customer_create_date	createDate
+		from
+			customers
+		order by
+			customer_no asc
+	</select>
+	
+	<select id="getCustomerByNo" parameterClass="int" resultClass="customer">
+		select
+			customer_no				no,
+			customer_name			name,
+			customer_nickname		nickName,
+			customer_phone			phone,
+			customer_email			email,
+			customer_city			city,
+			customer_point			point,
+			customer_create_date	createDate
+		from
+			customers
+		where
+			customer_no = #value#
+	</select>
+	
+	<select id="getCustomerBySearch" parameterClass="map" resultClass="customer">
+		select
+			customer_no				no,
+			customer_name			name,
+			customer_nickname		nickName,
+			customer_phone			phone,
+			customer_email			email,
+			customer_city			city,
+			customer_point			point,
+			customer_create_date	createDate
+		from
+			customers
+		where
+			1 = 1
+			<dynamic>
+				<isEqual property="sort" compareValue="no">
+					and customer_no = #keyword#
+				</isEqual>
+				<isEqual property="sort" compareValue="name">
+					and customer_name = #keyword#
+				</isEqual>
+				<isEqual property="sort" compareValue="nickname">
+					and customer_nickname = #keyword#
+				</isEqual>
+			</dynamic>
+		order by
+			customer_no asc
+	</select>
+	
+	<update id="updateCustomerByNo" parameterClass="customer">
+		update
+			customers
+		set
+			customer_nickname = #nickName#,
+			customer_phone = #phone#,
+			customer_email = #email#,
+			customer_city = #city#,
+			customer_point = #point#
+		where
+			customer_no = #no#
+	</update>
+	
+	<delete id="deleteCustomerByNo" parameterClass="int">
+		delete from
+			customers
+		where
+			customer_no = #value#
+	</delete>
+	
+	<insert id="insertCustomer" parameterClass="customer">
+		insert into customers 
+			(customer_no, customer_name, customer_nickname, customer_phone, customer_email, customer_city)
+		values
+			(customer_no_seq.nextval, #name#, #nickName#, #phone#, #email#, #city#)
+	</insert>
+</sqlMap>

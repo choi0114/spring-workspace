@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 
+		Setter Injection
+			setter 메소드를 정의하고 <property> 태그를 사용하여 
+			setter 메소드를 선택한 다음, 조립될 bean을 지정한다.
+	 -->
+	<bean id="messageService1" class="com.sample.di.demo6.MessageService">
+		<property name="morning" ref="goodmorning"></property>
+		<property name="bye" ref="goodbye"></property>
+	</bean>
+	
+	<bean id="goodmorning" class="com.sample.di.demo6.Goodmorning"></bean>
+	<bean id="goodbye" class="com.sample.di.demo6.Goodbye"></bean>
+	
+	<!-- 
+		Constructor Injection
+			생성자 메소드를 정의하고 <constructor-arg> 태그를 사용해서 조립될 bean을 지정한다.
+	 -->
+	 
+	 <bean id="messageService2" class="com.sample.di.demo6.MessageService">
+	 	<!--
+	 		index를 사용해서 주입하기 
+	 			- 두 객체의 타입이 같을 때 인덱스를 사용하면 편리하다.
+	 			- 두 객체의 타입이 다르면 굳이 인덱스를 쓸 필요 없다.
+		 	<constructor-arg index="0" ref="goodmorning"></constructor-arg>
+		 	<constructor-arg index="1" ref="goodbye"></constructor-arg>
+	 	 -->
+	 	 <constructor-arg ref="goodmorning"></constructor-arg>
+	 	 <constructor-arg ref="goodbye"></constructor-arg>
+	 </bean>
+
+</beans>
